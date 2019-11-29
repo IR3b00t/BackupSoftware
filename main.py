@@ -43,9 +43,19 @@ def save(source, destination, delete):
                 shutil.copytree(source_path, destination_path)
                 shutil.copystat(source_path, destination_path)
                 print('### FILES SAVED ###')
-                # autosave = input('Would you auto save ' +
-                #                 destination_name[len(destination_name) - 1] + ' [y/n]\n')
-                # Will put in a JSON file, dir to auto save.
+                autosave = input('Would you auto save ' +
+                                 destination_name[len(destination_name) - 1] + ' [y/n]\n')
+                if autosave == 'y':
+                    try:
+                        folder_path = os.path.dirname(
+                            os.path.abspath(__file__))
+                        file_path = folder_path + '/dirToSave.txt'
+                        dir_file = open(file_path, 'w')
+                        dir_file.write(source_path + ';')
+                        dir_file.close()
+                    except IOError:
+                        print('Error')
+                        # The error need to be described
             except (IOError, os.error) as why:
                 print(why)
         else:
